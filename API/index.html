@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Punishment API - Página Não Encontrada</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0a0a0c;
+      --bg-gradient: radial-gradient(circle at center, #111116 0%, #0a0a0c 100%);
+      --primary-red: #ef4444;
+      --text-main: #ffffff;
+      --text-muted: #a1a1aa;
+      --border-soft: rgba(255, 255, 255, 0.05);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    html, body { height: 100%; width: 100%; overflow: hidden; }
+    body {
+      background-color: var(--bg-dark);
+      background-image: var(--bg-gradient);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      text-align: center;
+    }
+
+    .glow-orb { position: absolute; border-radius: 50%; filter: blur(120px); z-index: 0; opacity: 0.25; animation: float 12s infinite ease-in-out alternate; }
+    .orb-1 { width: 400px; height: 400px; background: rgba(239, 68, 68, 0.15); top: -150px; left: -100px; }
+    @keyframes float { 0% { transform: translateY(0); } 100% { transform: translateY(40px); } }
+
+    .container { width: 100%; max-width: 600px; padding: 20px; z-index: 1; animation: fadeIn 1s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .logo { width: 90px; height: 90px; object-fit: cover; margin-bottom: 24px; border-radius: 22px; }
+    h1 { font-size: 2.3rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -1px; color: var(--primary-red); }
+    .subtitle { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; max-width: 420px; margin: 0 auto; }
+
+    footer { width: 100%; padding: 30px 20px; text-align: center; font-size: 0.75rem; color: #555; border-top: 1px solid var(--border-soft); position: absolute; bottom: 0; }
+    .footer-links { margin-bottom: 10px; display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; transition: 0.2s; }
+    .footer-links a:hover { color: var(--primary-red); }
+  </style>
+</head>
+
+<body>
+
+  <div class="glow-orb orb-1"></div>
+
+  <div class="container">
+    <img src="./logo.png" alt="Punishment Logo" class="logo"
+      onerror="this.src='https://ui-avatars.com/api/?name=P&background=ef4444&color=fff&size=100'" />
+
+    <h1>404 - Página Não Encontrada</h1>
+
+    <p class="subtitle">
+      Ops! Parece que você acessou um caminho que não existe.  
+      Não se preocupe, tudo está funcionando no Punishment. Volte para a página inicial para continuar.
+    </p>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="./terms">Termos</a>
+      <a href="./privacy">Privacidade</a>
+      <a href="./status">Status</a>
+    </div>
+    <p>© 2026 Punishment. Todos os direitos reservados.</p>
+  </footer>
+
+</body>
+</html>
