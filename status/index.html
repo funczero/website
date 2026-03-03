@@ -16,7 +16,6 @@
       --text-muted: #a1a1aa;
       --online: #43b581;
       --offline: #f04747;
-      --unknown: #faa61a;
       --card-bg: rgba(255, 255, 255, 0.02);
       --card-border: rgba(255, 255, 255, 0.05);
       --funczero-purple: #9C6ADE;
@@ -39,27 +38,12 @@
     .logo { width: 60px; height: 60px; border-radius: 18px; margin-bottom: 12px; }
     h1 { font-size: 2.2rem; font-weight: 800; color: var(--primary-red); letter-spacing: -1px; }
 
-    .status-indicator {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 24px;
-      border-radius: 100px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
+    /* Estilização para o Iframe do Badge */
+    .status-badge-container {
       margin-bottom: 40px;
-      font-weight: 600;
+      display: flex;
+      justify-content: center;
     }
-
-    .status-dot { width: 10px; height: 10px; border-radius: 50%; position: relative; }
-    .status-dot::after {
-      content: ""; position: absolute; inset: -3px; border-radius: 50%;
-      background-color: inherit; opacity: 0.4; animation: pulse 2s infinite;
-    }
-    @keyframes pulse { 0% { transform: scale(1); opacity: 0.5; } 70% { transform: scale(2); opacity: 0; } 100% { opacity: 0; } }
-
-    .status-operational { color: var(--online); border-color: rgba(67, 181, 129, 0.3); }
-    .status-offline { color: var(--offline); border-color: rgba(240, 71, 71, 0.3); }
 
     .grid {
       display: grid;
@@ -77,18 +61,19 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
+      min-height: 200px;
     }
 
     .card-header { display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
     .card-value { font-size: 1.8rem; font-weight: 700; }
 
-    /* Barras de Status Estilo GitHub */
-    .uptime-graph { display: flex; gap: 3px; height: 35px; margin-top: 10px; }
-    .bar { flex: 1; background: var(--online); border-radius: 2px; opacity: 0.7; transition: 0.2s; }
-    .bar:hover { opacity: 1; transform: scaleY(1.1); }
-    .bar.down { background: var(--offline); }
-    
-    .uptime-footer { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-top: 5px; }
+    /* Ajuste para o Iframe de Histórico */
+    .history-frame {
+      width: 100%;
+      height: 100px; /* Reduzido para caber no seu card */
+      border-radius: 8px;
+      overflow: hidden;
+    }
 
     footer { margin-top: auto; padding-top: 60px; text-align: center; font-size: 0.75rem; color: #555; width: 100%; }
     .dev-signature a { text-decoration: none; font-weight: 700; color: var(--funczero-purple); }
@@ -101,24 +86,20 @@
     <h1>Punishment</h1>
   </header>
 
-  <div id="statusIndicator" class="status-indicator">
-    <div class="status-dot" id="statusDot"></div>
-    <span id="statusText">Verificando...</span>
+  <div class="status-badge-container">
+    <iframe src="https://status.punbot.xyz/badge?theme=dark" width="250" height="30" frameborder="0" scrolling="no" style="color-scheme: normal;"></iframe>
   </div>
 
   <main class="grid">
     <div class="card">
       <div class="card-header">
-        <span>API & Gateway</span>
-        <span id="apiStatusLabel">--</span>
+        <span>Sistemas & Uptime</span>
+        <i data-lucide="shield-check"></i>
       </div>
-      <div class="uptime-graph" id="apiBars"></div>
-      <div class="uptime-footer">
-        <span>30 dias atrás</span>
-        <span id="uptimePercent">-- uptime</span>
-        <span>Hoje</span>
+      <iframe src="https://status.punbot.xyz" width="100%" height="150" frameborder="0" style="filter: brightness(0.9);"></iframe>
+      <div class="card-header" style="margin-top: auto;">
+        <a href="https://status.punbot.xyz" target="_blank" style="color: var(--primary-red); text-decoration: none; font-size: 0.7rem;">VER DETALHES COMPLETOS →</a>
       </div>
-      <div class="card-value" id="apiLatency">-- ms</div>
     </div>
 
     <div class="card">
@@ -151,21 +132,8 @@
   <script>
     lucide.createIcons();
 
-    const BETTER_STACK_TOKEN = 'Gf89nRF34RjkbUSgNqcom38m'; //
-    const MONITOR_ID = '4127040'; //
-
-    async function updateStatus() {
-      const startTime = Date.now();
+    async function updateBotStats() {
       try {
-        // 1. Dados Reais do Monitor
-        const response = await fetch(`https://uptime.betterstack.com/api/v2/monitors/${MONITOR_ID}`, {
-          headers: { 'Authorization': `Bearer ${BETTER_STACK_TOKEN}` }
-        });
-        const json = await response.json();
-        const monitor = json.data.attributes;
-        const latency = Date.now() - startTime;
-
-        // 2. Dados da sua API
         const [gRes, uRes] = await Promise.all([
           fetch('https://punbot.xyz/api/bot/guilds').catch(() => ({ json: () => ({ count: 0 }) })),
           fetch('https://punbot.xyz/api/bot/users').catch(() => ({ json: () => ({ total: 0 }) }))
@@ -173,53 +141,20 @@
         const gData = await gRes.json();
         const uData = await uRes.json();
 
-        // UI PRINCIPAL
-        const isUp = monitor.status === 'up'; //
-        const indicator = document.getElementById('statusIndicator');
-        
-        indicator.className = `status-indicator ${isUp ? 'status-operational' : 'status-offline'}`;
-        document.getElementById('statusText').textContent = isUp ? "Sistemas Operacionais" : "Instabilidade Detectada";
-        document.getElementById('statusDot').style.backgroundColor = isUp ? "var(--online)" : "var(--offline)";
-        
-        // CARD API
-        document.getElementById('apiStatusLabel').textContent = isUp ? "Normal" : "Erro";
-        document.getElementById('apiStatusLabel').style.color = isUp ? "var(--online)" : "var(--offline)";
-        document.getElementById('apiLatency').textContent = `${latency}ms`;
-        document.getElementById('uptimePercent').textContent = `${monitor.uptime_percentage}%`;
-
-        // STATS
         document.getElementById('guilds').textContent = (gData.count || 0).toLocaleString();
         document.getElementById('users').textContent = (uData.total || uData.count || 0).toLocaleString();
         
         const now = new Date();
         document.getElementById('updated').textContent = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
-
-        // BARRAS (GitHub Style)
-        renderBars(isUp);
-
       } catch (err) {
-        console.error("Erro na atualização:", err);
+        console.error("Erro ao buscar stats do bot:", err);
       }
     }
 
-    function renderBars(isUp) {
-      const container = document.getElementById('apiBars');
-      container.innerHTML = '';
-      const daySeed = new Date().getDate();
-
-      for (let i = 0; i < 35; i++) {
-        const bar = document.createElement('div');
-        bar.className = 'bar';
-        // Simulação de histórico persistente por dia para parecer real
-        if ((i + daySeed) % 20 === 0) bar.className = 'bar down';
-        // A última barra é a verdade de AGORA
-        if (i === 34 && !isUp) bar.className = 'bar down';
-        container.appendChild(bar);
-      }
-    }
-
-    updateStatus();
-    setInterval(updateStatus, 60000); // Atualiza a cada 1 minuto
+    updateBotStats();
+    setInterval(updateBotStats, 60000);
   </script>
+
+  <script src="https://uptime.betterstack.com/widgets/announcement.js" data-id="239395" async="async" type="text/javascript"></script>
 </body>
 </html>
