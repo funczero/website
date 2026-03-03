@@ -34,15 +34,16 @@
       padding: 60px 20px;
     }
 
-    .header { text-align: center; margin-bottom: 30px; }
+    .header { text-align: center; margin-bottom: 20px; }
     .logo { width: 60px; height: 60px; border-radius: 18px; margin-bottom: 12px; }
     h1 { font-size: 2.2rem; font-weight: 800; color: var(--primary-red); letter-spacing: -1px; }
 
-    /* Estilização para o Iframe do Badge */
-    .status-badge-container {
+    /* Selo de Status Geral no Topo */
+    .status-badge-main {
       margin-bottom: 40px;
       display: flex;
       justify-content: center;
+      filter: drop-shadow(0 0 8px rgba(67, 181, 129, 0.1));
     }
 
     .grid {
@@ -61,22 +62,30 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
-      min-height: 200px;
+      min-height: 220px;
     }
 
     .card-header { display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
     .card-value { font-size: 1.8rem; font-weight: 700; }
 
-    /* Ajuste para o Iframe de Histórico */
-    .history-frame {
-      width: 100%;
-      height: 100px; /* Reduzido para caber no seu card */
+    /* Estilo para as linhas de status dentro do card */
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.01);
+      padding: 10px;
       border-radius: 8px;
-      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.03);
     }
+
+    .status-row span { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }
 
     footer { margin-top: auto; padding-top: 60px; text-align: center; font-size: 0.75rem; color: #555; width: 100%; }
     .dev-signature a { text-decoration: none; font-weight: 700; color: var(--funczero-purple); }
+    
+    /* Remove scrollbars chatas de iframes pequenos */
+    iframe { overflow: hidden; }
   </style>
 </head>
 <body>
@@ -86,8 +95,8 @@
     <h1>Punishment</h1>
   </header>
 
-  <div class="status-badge-container">
-    <iframe src="https://status.punbot.xyz/badge?theme=dark" width="250" height="30" frameborder="0" scrolling="no" style="color-scheme: normal;"></iframe>
+  <div class="status-badge-main">
+    <iframe src="https://status.punbot.xyz/badge?theme=dark" width="250" height="30" frameborder="0" scrolling="no"></iframe>
   </div>
 
   <main class="grid">
@@ -96,9 +105,21 @@
         <span>Sistemas & Uptime</span>
         <i data-lucide="shield-check"></i>
       </div>
-      <iframe src="https://status.punbot.xyz" width="100%" height="150" frameborder="0" style="filter: brightness(0.9);"></iframe>
+      
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="status-row">
+          <span>API & GATEWAY</span>
+          <iframe src="https://status.punbot.xyz/badge?theme=dark" width="160" height="30" frameborder="0" scrolling="no"></iframe>
+        </div>
+
+        <div class="status-row">
+          <span>BOT CORE</span>
+          <iframe src="https://status.punbot.xyz/badge?theme=dark" width="160" height="30" frameborder="0" scrolling="no"></iframe>
+        </div>
+      </div>
+
       <div class="card-header" style="margin-top: auto;">
-        <a href="https://status.punbot.xyz" target="_blank" style="color: var(--primary-red); text-decoration: none; font-size: 0.7rem;">VER DETALHES COMPLETOS →</a>
+        <a href="https://status.punbot.xyz" target="_blank" style="color: var(--primary-red); text-decoration: none; font-size: 0.7rem; font-weight: bold;">VER PAINEL DETALHADO →</a>
       </div>
     </div>
 
@@ -132,6 +153,7 @@
   <script>
     lucide.createIcons();
 
+    // Função para atualizar os dados numéricos do bot
     async function updateBotStats() {
       try {
         const [gRes, uRes] = await Promise.all([
@@ -147,14 +169,15 @@
         const now = new Date();
         document.getElementById('updated').textContent = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
       } catch (err) {
-        console.error("Erro ao buscar stats do bot:", err);
+        console.error("Erro ao procurar stats:", err);
       }
     }
 
     updateBotStats();
-    setInterval(updateBotStats, 60000);
+    setInterval(updateBotStats, 60000); // Atualiza os números a cada 1 min
   </script>
 
   <script src="https://uptime.betterstack.com/widgets/announcement.js" data-id="239395" async="async" type="text/javascript"></script>
+
 </body>
 </html>
