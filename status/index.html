@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Punishment Status | Monitor Real-time</title>
+  <title>Punishment Status</title>
 
   <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -12,16 +12,24 @@
       --bg-dark: #0a0a0c;
       --bg-gradient: radial-gradient(circle at center, #111116 0%, #0a0a0c 100%);
       --primary-red: #ff3b3b;
+      --primary-red-hover: #ff5c5c;
       --text-main: #ffffff;
       --text-muted: #a1a1aa;
       --online: #43b581;
       --offline: #f04747;
+      --unknown: #faa61a;
       --card-bg: rgba(255, 255, 255, 0.02);
       --card-border: rgba(255, 255, 255, 0.05);
+      --card-hover: rgba(255, 255, 255, 0.04);
       --funczero-purple: #9C6ADE;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
 
     body {
       background-color: var(--bg-dark);
@@ -31,27 +39,88 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 60px 20px;
+      padding: 60px 20px 0px 20px;
     }
 
-    .header { text-align: center; margin-bottom: 20px; }
-    .logo { width: 60px; height: 60px; border-radius: 18px; margin-bottom: 12px; }
-    h1 { font-size: 2.2rem; font-weight: 800; color: var(--primary-red); letter-spacing: -1px; }
-
-    /* Selo de Status Geral no Topo */
-    .status-badge-main {
+    .header {
+      text-align: center;
       margin-bottom: 40px;
-      display: flex;
-      justify-content: center;
-      filter: drop-shadow(0 0 8px rgba(67, 181, 129, 0.1));
     }
+
+    .logo-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 18px;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .logo-container:hover .logo {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+      color: var(--primary-red);
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 24px;
+      border-radius: 100px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      margin-bottom: 50px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .status-dot::after {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      background-color: inherit;
+      opacity: 0.4;
+      animation: pulse-ring 2s infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% { transform: scale(1); opacity: 0.5; }
+      70% { transform: scale(1.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+
+    .status-operational { color: var(--online); border-color: rgba(67, 181, 129, 0.2); }
+    .status-offline     { color: var(--offline); border-color: rgba(240, 71, 71, 0.2); }
+    .status-unknown     { color: var(--unknown); border-color: rgba(250, 166, 26, 0.2); }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
       width: 100%;
       max-width: 900px;
+      margin-bottom: 60px;
     }
 
     .card {
@@ -59,125 +128,212 @@
       border: 1px solid var(--card-border);
       padding: 24px;
       border-radius: 16px;
+      transition: all 0.25s ease;
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      min-height: 220px;
+      gap: 12px;
     }
 
-    .card-header { display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
-    .card-value { font-size: 1.8rem; font-weight: 700; }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 59, 59, 0.3);
+      background: var(--card-hover);
+    }
 
-    /* Estilo para as linhas de status dentro do card */
-    .status-row {
+    .card-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      background: rgba(255, 255, 255, 0.01);
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
+      justify-content: space-between;
+      color: var(--text-muted);
     }
 
-    .status-row span { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }
+    .card-header i {
+      width: 18px;
+      height: 18px;
+    }
 
-    footer { margin-top: auto; padding-top: 60px; text-align: center; font-size: 0.75rem; color: #555; width: 100%; }
-    .dev-signature a { text-decoration: none; font-weight: 700; color: var(--funczero-purple); }
-    
-    /* Remove scrollbars chatas de iframes pequenos */
-    iframe { overflow: hidden; }
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .card-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    footer {
+      width: 100%;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #555;
+      border-top: 1px solid var(--card-border);
+      margin-top: auto;
+    }
+
+    .footer-links {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-red);
+    }
+
+    /* Estilo da sua assinatura */
+    .dev-signature {
+      margin-top: 8px;
+      color: #777;
+    }
+
+    .dev-signature a {
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--funczero-purple);
+      transition: opacity 0.2s ease;
+    }
+
+    .dev-signature a:hover {
+      opacity: 0.8;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 
   <header class="header">
-    <img src="../logo.png" class="logo" onerror="this.src='https://ui-avatars.com/api/?name=P&background=ff3b3b&color=fff'" />
+    <div class="logo-container">
+      <img src="../logo.png" alt="Punishment Logo"
+        class="logo"
+        onerror="this.src='https://ui-avatars.com/api/?name=P&background=ff3b3b&color=fff'" />
+    </div>
     <h1>Punishment</h1>
   </header>
 
-  <div class="status-badge-main">
-    <iframe src="https://status.punbot.xyz/badge?theme=dark" width="250" height="30" frameborder="0" scrolling="no"></iframe>
+  <div id="statusIndicator" class="status-indicator status-unknown">
+    <div class="status-dot" id="statusDot" style="background-color: var(--unknown)"></div>
+    <span id="statusText">Verificando...</span>
   </div>
 
   <main class="grid">
     <div class="card">
       <div class="card-header">
-        <span>Sistemas & Uptime</span>
-        <i data-lucide="shield-check"></i>
+        <span class="card-title">Servidores</span>
+        <i data-lucide="server"></i>
       </div>
-      
-      <div style="display: flex; flex-direction: column; gap: 10px;">
-        <div class="status-row">
-          <span>API & GATEWAY</span>
-          <iframe src="https://status.punbot.xyz/badge?theme=dark" width="160" height="30" frameborder="0" scrolling="no"></iframe>
-        </div>
-
-        <div class="status-row">
-          <span>BOT CORE</span>
-          <iframe src="https://status.punbot.xyz/badge?theme=dark" width="160" height="30" frameborder="0" scrolling="no"></iframe>
-        </div>
-      </div>
-
-      <div class="card-header" style="margin-top: auto;">
-        <a href="https://status.punbot.xyz" target="_blank" style="color: var(--primary-red); text-decoration: none; font-size: 0.7rem; font-weight: bold;">VER PAINEL DETALHADO →</a>
-      </div>
+      <div class="card-value" id="guilds">--</div>
     </div>
 
     <div class="card">
       <div class="card-header">
-        <span>Alcance do Bot</span>
+        <span class="card-title">Usuários</span>
+        <i data-lucide="users"></i>
+      </div>
+      <div class="card-value" id="users">--</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">API Status</span>
         <i data-lucide="activity"></i>
       </div>
-      <div style="display: flex; gap: 20px;">
-        <div>
-            <span style="font-size: 0.7rem; color: var(--text-muted);">GUILDAS</span>
-            <div class="card-value" id="guilds">--</div>
-        </div>
-        <div>
-            <span style="font-size: 0.7rem; color: var(--text-muted);">USUÁRIOS</span>
-            <div class="card-value" id="users">--</div>
-        </div>
+      <div class="card-value" id="apiStatus">--</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Atualização</span>
+        <i data-lucide="clock"></i>
       </div>
-      <div class="card-header" style="margin-top: auto;">
-        <span>Última atualização</span>
-        <span id="updated">--</span>
-      </div>
+      <div class="card-value" id="updated" style="font-size: 1.1rem; color: var(--text-muted); margin-top: auto;">--</div>
     </div>
   </main>
 
   <footer>
-    <p>© 2026 Punishment. Todos os direitos reservados.</p>
+    <div class="footer-links">
+      <a href="../terms">Termos</a>
+      <a href="../privacy">Privacidade</a>
+    </div>
+    <p>© 2026 Punishment. All rights reserved.</p>
     <p class="dev-signature">Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a></p>
   </footer>
 
   <script>
     lucide.createIcons();
 
-    // Função para atualizar os dados numéricos do bot
-    async function updateBotStats() {
+    async function fetchStatus() {
+      const indicator = document.getElementById('statusIndicator');
+      const statusText = document.getElementById('statusText');
+      const dot = document.getElementById('statusDot');
+      const apiStatusEl = document.getElementById('apiStatus');
+
       try {
-        const [gRes, uRes] = await Promise.all([
-          fetch('https://punbot.xyz/api/bot/guilds').catch(() => ({ json: () => ({ count: 0 }) })),
+        const [statusRes, guildsRes, usersRes] = await Promise.all([
+          fetch('https://punbot.xyz/api/bot/status'),
+          fetch('https://punbot.xyz/api/bot/guilds').catch(() => ({ json: () => [] })),
           fetch('https://punbot.xyz/api/bot/users').catch(() => ({ json: () => ({ total: 0 }) }))
         ]);
-        const gData = await gRes.json();
-        const uData = await uRes.json();
 
-        document.getElementById('guilds').textContent = (gData.count || 0).toLocaleString();
-        document.getElementById('users').textContent = (uData.total || uData.count || 0).toLocaleString();
-        
+        const statusData = await statusRes.json();
+        const guildsData = await guildsRes.json();
+        const usersData = await usersRes.json();
+
+        const isOnline = statusData.online === true || statusData.status === "online";
+
+        if (isOnline) {
+          indicator.className = "status-indicator status-operational";
+          statusText.textContent = "Sistemas Operacionais";
+          dot.style.backgroundColor = "var(--online)";
+          apiStatusEl.textContent = "Online";
+          apiStatusEl.style.color = "var(--online)";
+        } else {
+          indicator.className = "status-indicator status-offline";
+          statusText.textContent = "Instabilidade Detectada";
+          dot.style.backgroundColor = "var(--offline)";
+          apiStatusEl.textContent = "Offline";
+          apiStatusEl.style.color = "var(--offline)";
+        }
+
+        const totalGuilds = Array.isArray(guildsData) ? guildsData.length : (guildsData.count || 0);
+        document.getElementById('guilds').textContent = totalGuilds.toLocaleString('pt-BR');
+
+        const totalUsers = usersData.total || usersData.users || 0;
+        document.getElementById('users').textContent = totalUsers.toLocaleString('pt-BR');
+
         const now = new Date();
-        document.getElementById('updated').textContent = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
-      } catch (err) {
-        console.error("Erro ao procurar stats:", err);
+        const horas = now.getHours().toString().padStart(2, '0');
+        const minutos = now.getMinutes().toString().padStart(2, '0');
+        document.getElementById('updated').textContent = `Hoje às ${horas}:${minutos}`;
+
+      } catch {
+        statusText.textContent = "Erro na conexão com a API";
+        indicator.className = "status-indicator status-offline";
+        dot.style.backgroundColor = "var(--offline)";
+        apiStatusEl.textContent = "Indisponível";
+        apiStatusEl.style.color = "var(--offline)";
       }
     }
 
-    updateBotStats();
-    setInterval(updateBotStats, 60000); // Atualiza os números a cada 1 min
+    fetchStatus();
+    setInterval(fetchStatus, 30000);
   </script>
-
-  <script src="https://uptime.betterstack.com/widgets/announcement.js" data-id="239395" async="async" type="text/javascript"></script>
 
 </body>
 </html>
