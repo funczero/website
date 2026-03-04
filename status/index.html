@@ -4,103 +4,336 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Punishment Status</title>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <style>
     :root {
       --bg-dark: #0a0a0c;
+      --bg-gradient: radial-gradient(circle at center, #111116 0%, #0a0a0c 100%);
       --primary-red: #ff3b3b;
-      --card-bg: #111114;
-      --border: rgba(255, 255, 255, 0.08);
+      --primary-red-hover: #ff5c5c;
+      --text-main: #ffffff;
+      --text-muted: #a1a1aa;
+      --online: #43b581;
+      --offline: #f04747;
+      --unknown: #faa61a;
+      --card-bg: rgba(255, 255, 255, 0.02);
+      --card-border: rgba(255, 255, 255, 0.05);
+      --card-hover: rgba(255, 255, 255, 0.04);
+      --funczero-purple: #9C6ADE;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
     }
 
     body {
-      background: var(--bg-dark);
-      color: #fff;
-      font-family: 'Inter', -apple-system, sans-serif;
-      margin: 0;
+      background-color: var(--bg-dark);
+      background-image: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
+      padding: 60px 20px 0px 20px;
     }
 
-    /* Header com sua identidade */
-    .header { text-align: center; padding: 40px 20px 20px; }
-    .logo { width: 75px; border-radius: 18px; margin-bottom: 12px; border: 2px solid var(--border); }
-    h1 { font-size: 2.2rem; color: var(--primary-red); margin: 0; font-weight: 800; letter-spacing: -1px; }
-    .subtitle { color: #71717a; font-size: 0.9rem; margin-top: 5px; }
-
-    /* Container Mágico que esconde o 'Powered By' */
-    .status-wrapper {
-      width: 95%;
-      max-width: 800px;
-      height: 750px; /* Ajuste conforme a quantidade de monitores */
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      overflow: hidden; /* Esconde o que sai da borda */
-      position: relative;
+    .header {
+      text-align: center;
       margin-bottom: 40px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
 
-    /* O Iframe fica maior que o container para o rodapé sumir lá embaixo */
-    iframe {
-      width: 100%;
-      height: 900px; /* Altura maior para empurrar o 'Powered by' para fora */
-      border: none;
-      position: absolute;
-      top: -60px; /* Esconde o cabeçalho original do Better Stack se quiser */
-      left: 0;
+    .logo-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 16px;
     }
 
-    /* Overlay para bloquear cliques indesejados no topo (opcional) */
-    .click-blocker {
-      position: absolute;
-      top: 0;
-      width: 100%;
+    .logo {
+      width: 60px;
       height: 60px;
-      z-index: 10;
-      background: var(--card-bg);
+      object-fit: contain;
+      border-radius: 18px;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    footer { 
-      padding: 40px; 
-      text-align: center; 
-      font-size: 0.8rem; 
-      color: #3f3f46; 
-      border-top: 1px solid var(--border);
-      width: 100%;
+    .logo-container:hover .logo {
+      transform: scale(1.1) rotate(5deg);
     }
-    
-    .dev { color: #9C6ADE; text-decoration: none; font-weight: bold; }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+      color: var(--primary-red);
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 24px;
+      border-radius: 100px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      margin-bottom: 50px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .status-dot::after {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      background-color: inherit;
+      opacity: 0.4;
+      animation: pulse-ring 2s infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% { transform: scale(1); opacity: 0.5; }
+      70% { transform: scale(1.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+
+    .status-operational { color: var(--online); border-color: rgba(67, 181, 129, 0.2); }
+    .status-offline     { color: var(--offline); border-color: rgba(240, 71, 71, 0.2); }
+    .status-unknown     { color: var(--unknown); border-color: rgba(250, 166, 26, 0.2); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 60px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 24px;
+      border-radius: 16px;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 59, 59, 0.3);
+      background: var(--card-hover);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+
+    .card-header i {
+      width: 18px;
+      height: 18px;
+    }
+
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .card-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    footer {
+      width: 100%;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #555;
+      border-top: 1px solid var(--card-border);
+      margin-top: auto;
+    }
+
+    .footer-links {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-red);
+    }
+
+    /* Estilo da sua assinatura */
+    .dev-signature {
+      margin-top: 8px;
+      color: #777;
+    }
+
+    .dev-signature a {
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--funczero-purple);
+      transition: opacity 0.2s ease;
+    }
+
+    .dev-signature a:hover {
+      opacity: 0.8;
+    }
 
     @media (max-width: 600px) {
-      .status-wrapper { height: 1100px; } /* Mobile precisa de mais altura */
-      iframe { height: 1300px; }
+      h1 { font-size: 2rem; }
+      .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
   <header class="header">
-    <img src="../logo.png" class="logo" onerror="this.src='https://ui-avatars.com/api/?name=P&background=ff3b3b&color=fff'">
+    <div class="logo-container">
+      <img src="../logo.png" alt="Punishment Logo"
+        class="logo"
+        onerror="this.src='https://ui-avatars.com/api/?name=P&background=ff3b3b&color=fff'" />
+    </div>
     <h1>Punishment</h1>
-    <div class="subtitle">Monitoramento</div>
   </header>
 
-  <div class="status-wrapper">
-    <iframe 
-      src="https://status.punbot.xyz" 
-      loading="lazy"
-      scrolling="no">
-    </iframe>
+  <div id="statusIndicator" class="status-indicator status-unknown">
+    <div class="status-dot" id="statusDot" style="background-color: var(--unknown)"></div>
+    <span id="statusText">Verificando...</span>
   </div>
 
+  <main class="grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Servidores</span>
+        <i data-lucide="server"></i>
+      </div>
+      <div class="card-value" id="guilds">--</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Usuários</span>
+        <i data-lucide="users"></i>
+      </div>
+      <div class="card-value" id="users">--</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">API Status</span>
+        <i data-lucide="activity"></i>
+      </div>
+      <div class="card-value" id="apiStatus">--</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Atualização</span>
+        <i data-lucide="clock"></i>
+      </div>
+      <div class="card-value" id="updated" style="font-size: 1.1rem; color: var(--text-muted); margin-top: auto;">--</div>
+    </div>
+  </main>
+
   <footer>
-    <p>© 2026 Punishment. Todos os direitos reservados.</p>
-    <p>dev by <a href="https://funczero.xyz" class="dev">FuncZero</a></p>
+    <div class="footer-links">
+      <a href="../terms">Termos</a>
+      <a href="../privacy">Privacidade</a>
+    </div>
+    <p>© 2026 Punishment. All rights reserved.</p>
+    <p class="dev-signature">Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a></p>
   </footer>
+
+  <script>
+    lucide.createIcons();
+
+    async function fetchStatus() {
+      const indicator = document.getElementById('statusIndicator');
+      const statusText = document.getElementById('statusText');
+      const dot = document.getElementById('statusDot');
+      const apiStatusEl = document.getElementById('apiStatus');
+
+      try {
+        const [statusRes, guildsRes, usersRes] = await Promise.all([
+          fetch('https://punbot.xyz/api/bot/status'),
+          fetch('https://punbot.xyz/api/bot/guilds').catch(() => ({ json: () => [] })),
+          fetch('https://punbot.xyz/api/bot/users').catch(() => ({ json: () => ({ total: 0 }) }))
+        ]);
+
+        const statusData = await statusRes.json();
+        const guildsData = await guildsRes.json();
+        const usersData = await usersRes.json();
+
+        const isOnline = statusData.online === true || statusData.status === "online";
+
+        if (isOnline) {
+          indicator.className = "status-indicator status-operational";
+          statusText.textContent = "Sistemas Operacionais";
+          dot.style.backgroundColor = "var(--online)";
+          apiStatusEl.textContent = "Online";
+          apiStatusEl.style.color = "var(--online)";
+        } else {
+          indicator.className = "status-indicator status-offline";
+          statusText.textContent = "Instabilidade Detectada";
+          dot.style.backgroundColor = "var(--offline)";
+          apiStatusEl.textContent = "Offline";
+          apiStatusEl.style.color = "var(--offline)";
+        }
+
+        const totalGuilds = Array.isArray(guildsData) ? guildsData.length : (guildsData.count || 0);
+        document.getElementById('guilds').textContent = totalGuilds.toLocaleString('pt-BR');
+
+        const totalUsers = usersData.total || usersData.users || 0;
+        document.getElementById('users').textContent = totalUsers.toLocaleString('pt-BR');
+
+        const now = new Date();
+        const horas = now.getHours().toString().padStart(2, '0');
+        const minutos = now.getMinutes().toString().padStart(2, '0');
+        document.getElementById('updated').textContent = `Hoje às ${horas}:${minutos}`;
+
+      } catch {
+        statusText.textContent = "Erro na conexão com a API";
+        indicator.className = "status-indicator status-offline";
+        dot.style.backgroundColor = "var(--offline)";
+        apiStatusEl.textContent = "Indisponível";
+        apiStatusEl.style.color = "var(--offline)";
+      }
+    }
+
+    fetchStatus();
+    setInterval(fetchStatus, 30000);
+  </script>
 
 </body>
 </html>
