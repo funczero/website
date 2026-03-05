@@ -132,18 +132,48 @@
     }
 
     footer {
-      margin-top: 80px;
-      padding-bottom: 40px;
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--footer-color);
-      letter-spacing: 0.5px;
       width: 100%;
+      padding: 20px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #555;
+      border-top: 1px solid #1f1f23;
+      margin-top: 80px;
     }
 
-    footer a {
-      color: inherit;
+    .footer-links {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
       text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #ff3b3b;
+    }
+
+    .dev-signature {
+      margin-top: 8px;
+      color: #777;
+      font-size: 0.8rem;
+    }
+
+    .dev-signature a {
+      text-decoration: none;
+      font-weight: 700;
+      color: #9b6dff;
+      transition: color 0.2s ease;
+    }
+
+    .dev-signature a:hover {
+      color: #b088ea;
     }
 
     @media (max-width: 480px) {
@@ -226,7 +256,15 @@
 </div>
 
 <footer>
-  © 2026 Punishment. Todos os direitos reservados.
+  <div class="footer-links">
+    <a href="./status">Status</a>
+  </div>
+
+  <p>© 2026 Punishment. All rights reserved.</p>
+
+  <p class="dev-signature">
+    Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a>
+  </p>
 </footer>
 
 </body>
