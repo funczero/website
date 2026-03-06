@@ -135,29 +135,32 @@
       color: var(--text-main);
     }
 
-    /* ESTILO DO RODAPÉ PADRONIZADO */
+    /* RODAPÉ CORRIGIDO */
     footer {
       width: 100%;
-      padding: 30px 20px;
+      padding: 40px 20px;
       text-align: center;
-      font-size: 0.75rem;
-      color: #555;
       border-top: 1px solid var(--border-soft);
       margin-top: 80px;
       background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
     }
 
     .footer-links {
-      margin-bottom: 10px;
       display: flex;
       justify-content: center;
       gap: 18px;
       flex-wrap: wrap;
+      margin-bottom: 4px;
     }
 
     .footer-links a {
       color: var(--text-muted);
       text-decoration: none;
+      font-size: 0.85rem;
       transition: 0.2s;
     }
 
@@ -165,8 +168,14 @@
       color: var(--primary-red);
     }
 
+    footer p {
+      text-align: center; /* Sobrescreve o justify global */
+      margin-bottom: 0;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
     .dev-signature {
-      margin-top: 8px;
       color: #777;
       font-size: 0.8rem;
     }
