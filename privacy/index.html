@@ -137,59 +137,51 @@
 
     /* RODAPÉ CORRIGIDO */
     footer {
-      width: 100%;
-      padding: 40px 20px;
-      text-align: center;
-      border-top: 1px solid var(--border-soft);
-      margin-top: 80px;
-      background: var(--bg-dark);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #555;
+  border-top: 1px solid var(--border-soft);
+  position: absolute;
+  bottom: 0;
+  background: var(--bg-dark);
+}
 
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      flex-wrap: wrap;
-      margin-bottom: 4px;
-    }
+.footer-links {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
 
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: 0.2s;
-    }
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: 0.2s;
+}
 
-    .footer-links a:hover {
-      color: var(--primary-red);
-    }
+.footer-links a:hover {
+  color: var(--primary-red);
+}
 
-    footer p {
-      text-align: center; /* Sobrescreve o justify global */
-      margin-bottom: 0;
-      font-size: 0.8rem;
-      color: #555;
-    }
+.dev-signature {
+  margin-top: 8px;
+  color: #777;
+  font-size: 0.8rem;
+}
 
-    .dev-signature {
-      color: #777;
-      font-size: 0.8rem;
-    }
+.dev-signature a {
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--funczero-purple);
+  transition: color 0.2s ease;
+}
 
-    .dev-signature a {
-      text-decoration: none;
-      font-weight: 700;
-      color: var(--funczero-purple);
-      transition: color 0.2s ease;
-    }
-
-    .dev-signature a:hover {
-      color: #b088ea;
-    }
+.dev-signature a:hover {
+  color: #b088ea;
+}
 
     @media (max-width: 480px) {
       h1 { font-size: 2.2rem; }
