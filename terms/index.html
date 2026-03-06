@@ -37,7 +37,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 60px 24px;
+      padding: 60px 24px 0 24px;
       line-height: 1.6;
     }
 
@@ -102,63 +102,69 @@
       font-weight: 600;
     }
 
-    a {
+    /* Links dentro do card/container */
+    .container a {
       color: var(--link-color);
       text-decoration: underline;
       text-underline-offset: 3px;
     }
 
-    a:hover {
+    .container a:hover {
       color: var(--text-main);
     }
 
-    /* FOOTER */
+    /* FOOTER CORRIGIDO E PROFISSIONAL */
 
     footer {
       width: 100%;
       border-top: 1px solid var(--border-soft);
       margin-top: 60px;
-      padding: 24px 0;
+      padding: 32px 24px;
       display: flex;
       justify-content: center;
-      text-align: center;
     }
 
     .footer-container {
       width: 100%;
       max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-container p {
+      margin-bottom: 0;
       text-align: center;
-      font-size: 0.8rem;
-      color: #777;
+      font-size: 0.85rem;
+      color: var(--text-muted);
     }
 
     .footer-links {
-      margin-bottom: 10px;
       display: flex;
       justify-content: center;
-      gap: 18px;
+      gap: 24px;
       flex-wrap: wrap;
+      margin-bottom: 8px;
     }
 
     .footer-links a {
       color: var(--text-muted);
       text-decoration: none;
-      transition: 0.2s;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
     }
 
     .footer-links a:hover {
-      color: var(--primary-red);
-    }
-
-    .dev-signature {
-      margin-top: 8px;
-      font-size: 0.8rem;
+      color: var(--text-main);
     }
 
     .dev-signature a {
       text-decoration: none;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--funczero-purple);
+      transition: color 0.2s ease;
     }
 
     .dev-signature a:hover {
@@ -168,7 +174,7 @@
     @media (max-width:480px) {
       h1 { font-size:2.2rem }
       h2 { font-size:1.15rem }
-      body { padding:40px 20px }
+      body { padding:40px 20px 0 20px }
     }
   </style>
 </head>
@@ -266,16 +272,13 @@ como a <strong>LGPD (Brasil)</strong> e, quando aplicável, o <strong>GDPR</stro
 
 <footer>
   <div class="footer-container">
-
     <div class="footer-links">
       <a href="./terms">Termos</a>
       <a href="./privacy">Privacidade</a>
       <a href="./status">Status</a>
     </div>
-
     <p>© 2026 Punishment. All rights reserved.</p>
     <p class="dev-signature">Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a></p>
-
   </div>
 </footer>
 
