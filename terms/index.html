@@ -1,221 +1,296 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Termos de Uso</title>
+  <style>
+    :root {
+      --bg-dark: #0a0a0c;
+      --bg-gradient: radial-gradient(circle at center, #111116 0%, #0a0a0c 100%);
+      --text-main: #ffffff;
+      --text-muted: #a1a1aa;
+      --accent-gray: #3f3f46;
+      --footer-color: #333;
+      --link-color: #d4d4d8;
+      /* ADICIONADO PARA O RODAPÉ */
+      --primary-red: #ef4444;
+      --border-soft: rgba(255, 255, 255, 0.05);
+      --funczero-purple: #9C6ADE;
+    }
 
-<title>Termos de Uso</title>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        var(--bg-gradient),
+        radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 24px;
+      line-height: 1.6;
+    }
 
-<style>
+    .container {
+      width: 100%;
+      max-width: 720px;
+      z-index: 1;
+      flex: 1;
+    }
 
-/* EXATAMENTE O MESMO CSS DA PÁGINA PRIVACY */
+    .back {
+      display: inline-block;
+      margin-bottom: 32px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
 
-:root {
---bg-dark:#0a0a0c;
---bg-gradient: radial-gradient(circle at center,#111116 0%,#0a0a0c 100%);
---text-main:#ffffff;
---text-muted:#a1a1aa;
---accent-gray:#3f3f46;
---primary-red:#ef4444;
---border-soft:rgba(255,255,255,0.05);
---funczero-purple:#9C6ADE;
-}
+    .back:hover {
+      color: var(--text-main);
+    }
 
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:'Inter',system-ui,-apple-system,sans-serif;
-}
+    .card {
+      background: transparent;
+      width: 100%;
+    }
 
-body{
-background-color:var(--bg-dark);
-background-image:
-var(--bg-gradient),
-radial-gradient(circle,rgba(255,255,255,0.05) 1px,transparent 1px);
-background-size:100% 100%,40px 40px;
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--text-main);
+      letter-spacing: -1.5px;
+    }
 
-color:var(--text-main);
+    .updated {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 48px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-min-height:100vh;
-display:flex;
-flex-direction:column;
-align-items:center;
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      color: var(--text-main);
+      border-left: 2px solid var(--accent-gray);
+      padding-left: 16px;
+    }
 
-padding:60px 24px 0 24px;
+    p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-size: 1rem;
+      text-align: justify;
+    }
 
-line-height:1.6;
-}
+    ul {
+      margin-left: 16px;
+      margin-bottom: 24px;
+      list-style-type: none;
+    }
 
-.container{
-width:100%;
-max-width:720px;
-flex:1;
-}
+    li {
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      position: relative;
+      padding-left: 20px;
+    }
 
-h1{
-font-size:3rem;
-font-weight:800;
-margin-bottom:8px;
-letter-spacing:-1.5px;
-}
+    li::before {
+      content: "—";
+      color: var(--accent-gray);
+      position: absolute;
+      left: 0;
+    }
 
-.updated{
-color:var(--text-muted);
-font-size:0.85rem;
-margin-bottom:48px;
-text-transform:uppercase;
-letter-spacing:1px;
-}
+    strong {
+      color: #e4e4e7;
+      font-weight: 600;
+    }
 
-h2{
-font-size:1.3rem;
-font-weight:700;
-margin-top:48px;
-margin-bottom:16px;
-border-left:2px solid var(--accent-gray);
-padding-left:16px;
-}
+    .card a {
+      color: var(--link-color);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
 
-p{
-color:var(--text-muted);
-margin-bottom:20px;
-text-align:justify;
-}
+    .card a:hover {
+      color: var(--text-main);
+    }
 
-ul{
-margin-left:16px;
-margin-bottom:24px;
-list-style:none;
-}
+    /* RODAPÉ PADRONIZADO E CENTRALIZADO */
+    footer {
+      width: 100%;
+      padding: 40px 20px;
+      text-align: center;
+      border-top: 1px solid var(--border-soft);
+      margin-top: 80px;
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
 
-li{
-color:var(--text-muted);
-margin-bottom:12px;
-position:relative;
-padding-left:20px;
-}
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
 
-li::before{
-content:"—";
-color:var(--accent-gray);
-position:absolute;
-left:0;
-}
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: 0.2s;
+    }
 
-strong{
-color:#e4e4e7;
-font-weight:600;
-}
+    .footer-links a:hover {
+      color: var(--primary-red);
+    }
 
-/* FOOTER PADRÃO */
+    footer p {
+      text-align: center;
+      margin-bottom: 0;
+      font-size: 0.8rem;
+      color: #555;
+    }
 
-footer{
-width:100%;
-padding:20px;
-text-align:center;
-font-size:0.75rem;
-color:#555;
-border-top:1px solid var(--border-soft);
-margin-top:60px;
-background:var(--bg-dark);
-}
+    .dev-signature {
+      color: #777;
+      font-size: 0.8rem;
+    }
 
-.footer-links{
-margin-bottom:10px;
-display:flex;
-justify-content:center;
-gap:18px;
-flex-wrap:wrap;
-}
+    .dev-signature a {
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--funczero-purple);
+      transition: color 0.2s ease;
+    }
 
-.footer-links a{
-color:var(--text-muted);
-text-decoration:none;
-transition:0.2s;
-}
+    .dev-signature a:hover {
+      color: #b088ea;
+    }
 
-.footer-links a:hover{
-color:var(--primary-red);
-}
-
-.dev-signature{
-margin-top:8px;
-color:#777;
-font-size:0.8rem;
-}
-
-.dev-signature a{
-text-decoration:none;
-font-weight:700;
-color:var(--funczero-purple);
-}
-
-.dev-signature a:hover{
-color:#b088ea;
-}
-
-</style>
+    @media (max-width: 480px) {
+      h1 { font-size: 2.2rem; }
+      h2 { font-size: 1.15rem; }
+      body { padding: 40px 20px; }
+    }
+  </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<h1>Termos de Uso</h1>
+  <div class="card">
+    <h1>Termos de Uso</h1>
+    <div class="updated">Última atualização: 12/01/2026</div>
 
-<div class="updated">
-Última atualização: 12/01/2026
-</div>
+    <p>
+      O <strong>Punishment</strong> é um bot de moderação para Discord, desenvolvido e mantido de forma independente,
+      com o objetivo de auxiliar na organização, segurança e administração de servidores.
+    </p>
 
-<p>
-Ao utilizar o <strong>Punishment</strong>, você concorda com estes Termos de Uso.
-</p>
+    <p>
+      Ao adicionar, acessar ou utilizar qualquer funcionalidade do Punishment, o usuário declara que
+      <strong>leu, compreendeu e concorda integralmente</strong> com estes Termos.
+    </p>
 
-<h2>1. Uso do Bot</h2>
+    <h2>1. Elegibilidade e Aceitação</h2>
+    <p>
+      O uso do Punishment é permitido apenas para usuários que estejam em conformidade com os
+      <strong>Termos de Serviço e Diretrizes do Discord</strong>.
+    </p>
+    <p>
+      Caso o usuário não concorde com qualquer cláusula destes Termos, deverá interromper
+      imediatamente o uso do bot.
+    </p>
 
-<p>
-O Punishment é fornecido para auxiliar na moderação e gestão de servidores Discord.
-</p>
+    <h2>2. Uso Permitido</h2>
+    <p>
+      O Punishment deve ser utilizado exclusivamente para fins legítimos de moderação,
+      organização e segurança de servidores.
+    </p>
+    <ul>
+      <li>É proibido o uso para atividades ilegais, abusivas ou maliciosas;</li>
+      <li>É vedada qualquer tentativa de explorar falhas, contornar limitações ou interferir no funcionamento do bot;</li>
+      <li>O usuário é o único responsável pelas ações executadas por meio do Punishment.</li>
+    </ul>
 
-<h2>2. Responsabilidade</h2>
+    <h2>3. Isenção e Limitação de Responsabilidade</h2>
+    <p>
+      O Punishment é fornecido <strong>“no estado em que se encontra”</strong>, sem garantias expressas ou implícitas
+      de desempenho, disponibilidade contínua ou ausência de erros.
+    </p>
+    <p>
+      O desenvolvedor <strong>não se responsabiliza</strong> por:
+    </p>
+    <ul>
+      <li>Danos diretos ou indiretos causados por uso indevido;</li>
+      <li>Banimentos, punições ou perdas decorrentes de decisões administrativas;</li>
+      <li>Falhas, interrupções ou alterações no funcionamento do Discord;</li>
+      <li>Perda de dados, configurações ou registros.</li>
+    </ul>
 
-<p>
-Os administradores do servidor são responsáveis pelo uso das ferramentas disponibilizadas pelo bot.
-</p>
+    <h2>4. Indenização</h2>
+    <p>
+      O usuário concorda em isentar e indenizar o responsável pelo Punishment contra quaisquer
+      reclamações, danos, perdas ou responsabilidades decorrentes do uso do bot.
+    </p>
 
-<h2>3. Limitação de Responsabilidade</h2>
+    <h2>5. Suspensão e Encerramento</h2>
+    <p>
+      O acesso ao Punishment pode ser suspenso ou encerrado a qualquer momento, sem aviso prévio,
+      caso seja identificado uso indevido, violação destes Termos ou risco operacional.
+    </p>
 
-<p>
-O desenvolvedor não se responsabiliza por uso indevido da ferramenta ou danos decorrentes de configurações incorretas.
-</p>
+    <h2>6. Alterações dos Termos</h2>
+    <p>
+      Estes Termos podem ser modificados a qualquer momento. O uso contínuo do Punishment
+      após alterações implica aceitação automática da versão vigente.
+    </p>
 
-<h2>4. Alterações</h2>
+    <h2>7. Foro e Legislação</h2>
+    <p>
+      Estes Termos são regidos pelas leis aplicáveis, respeitando normas de proteção de dados
+      como a <strong>LGPD (Brasil)</strong> e, quando aplicável, o <strong>GDPR</strong>.
+    </p>
 
-<p>
-Estes termos podem ser atualizados a qualquer momento sem aviso prévio.
-</p>
-
+    <h2>8. Contato</h2>
+    <p>
+      📧 <a href="mailto:contato@funczero.xyz">contato@funczero.xyz</a>
+    </p>
+  </div>
 </div>
 
 <footer>
-
-<div class="footer-links">
-<a href="./terms">Termos</a>
-<a href="./privacy">Privacidade</a>
-<a href="./status">Status</a>
-</div>
-
-<p>© 2026 Punishment. All rights reserved.</p>
-
-<p class="dev-signature">
-Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a>
-</p>
-
+  <div class="footer-links">
+    <a href="./terms">Termos</a>
+    <a href="./privacy">Privacidade</a>
+    <a href="./status">Status</a>
+  </div>
+  <p>© 2026 Punishment. All rights reserved.</p>
+  <p class="dev-signature">Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a></p>
 </footer>
 
 </body>
