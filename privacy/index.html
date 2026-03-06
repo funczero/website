@@ -13,6 +13,9 @@
       --accent-gray: #3f3f46;
       --footer-color: #333;
       --link-color: #d4d4d8;
+      --primary-red: #ef4444;
+      --border-soft: rgba(255, 255, 255, 0.05);
+      --funczero-purple: #9C6ADE;
     }
 
     * {
@@ -33,7 +36,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 60px 24px;
+      padding: 60px 24px 0 24px;
       line-height: 1.6;
     }
 
@@ -41,6 +44,7 @@
       width: 100%;
       max-width: 720px;
       z-index: 1;
+      flex: 1;
     }
 
     .back {
@@ -131,23 +135,38 @@
       color: var(--text-main);
     }
 
+    /* ESTILO DO RODAPÉ PADRONIZADO */
     footer {
       width: 100%;
-      max-width: 720px;
-      padding: 30px 0;
+      padding: 30px 20px;
       text-align: center;
       font-size: 0.75rem;
       color: #555;
-      border-top: 1px solid #1f1f23;
+      border-top: 1px solid var(--border-soft);
       margin-top: 80px;
+      background: var(--bg-dark);
+    }
 
+    .footer-links {
+      margin-bottom: 10px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-red);
     }
 
     .dev-signature {
+      margin-top: 8px;
       color: #777;
       font-size: 0.8rem;
     }
@@ -155,7 +174,7 @@
     .dev-signature a {
       text-decoration: none;
       font-weight: 700;
-      color: #9b6dff;
+      color: var(--funczero-purple);
       transition: color 0.2s ease;
     }
 
@@ -166,7 +185,7 @@
     @media (max-width: 480px) {
       h1 { font-size: 2.2rem; }
       h2 { font-size: 1.15rem; }
-      body { padding: 40px 20px; }
+      body { padding: 40px 20px 0 20px; }
     }
   </style>
 </head>
@@ -243,11 +262,13 @@
 </div>
 
 <footer>
+  <div class="footer-links">
+    <a href="./terms">Termos</a>
+    <a href="./privacy">Privacidade</a>
+    <a href="./status">Status</a>
+  </div>
   <p>© 2026 Punishment. All rights reserved.</p>
-
-  <p class="dev-signature">
-    Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a>
-  </p>
+  <p class="dev-signature">Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a></p>
 </footer>
 
 </body>
