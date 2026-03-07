@@ -6,6 +6,9 @@
   <title>Punishment Status</title>
 
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -21,6 +24,7 @@
       --card-bg: rgba(255, 255, 255, 0.02);
       --card-border: rgba(255, 255, 255, 0.05);
       --card-hover: rgba(255, 255, 255, 0.04);
+      --border-soft: rgba(255, 255, 255, 0.05);
       --funczero-purple: #9C6ADE;
     }
 
@@ -39,12 +43,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 60px 20px 0px 20px;
+      /* Padding lateral removido para o footer ocupar 100% */
     }
 
     .header {
       text-align: center;
       margin-bottom: 40px;
+      margin-top: 60px;
     }
 
     .logo-container {
@@ -58,11 +63,6 @@
       height: 60px;
       object-fit: contain;
       border-radius: 18px;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .logo-container:hover .logo {
-      transform: scale(1.1) rotate(5deg);
     }
 
     h1 {
@@ -84,7 +84,6 @@
       margin-bottom: 50px;
       font-weight: 500;
       font-size: 0.9rem;
-      transition: all 0.3s ease;
     }
 
     .status-dot {
@@ -121,6 +120,7 @@
       width: 100%;
       max-width: 900px;
       margin-bottom: 60px;
+      padding: 0 20px;
     }
 
     .card {
@@ -147,10 +147,7 @@
       color: var(--text-muted);
     }
 
-    .card-header i {
-      width: 18px;
-      height: 18px;
-    }
+    .card-header i { width: 18px; height: 18px; }
 
     .card-title {
       font-size: 0.85rem;
@@ -165,15 +162,19 @@
       color: var(--text-main);
     }
 
+    /* FOOTER PADRONIZADO */
     footer {
       width: 100%;
-      padding: 30px 20px;
+      padding: 20px;
       text-align: center;
       font-size: 0.75rem;
       color: #555;
-      border-top: 1px solid var(--card-border);
+      border-top: 1px solid var(--border-soft);
+      background: var(--bg-dark);
       margin-top: auto;
     }
+
+    footer p { margin: 0; color: #555; text-align: center; }
 
     .footer-links {
       margin-bottom: 10px;
@@ -189,25 +190,18 @@
       transition: 0.2s;
     }
 
-    .footer-links a:hover {
-      color: var(--primary-red);
-    }
+    .footer-links a:hover { color: var(--primary-red); }
 
-    /* Estilo da sua assinatura */
     .dev-signature {
-      margin-top: 8px;
-      color: #777;
+      margin-top: 8px !important;
+      color: #777 !important;
+      font-size: 0.8rem;
     }
 
     .dev-signature a {
       text-decoration: none;
       font-weight: 700;
       color: var(--funczero-purple);
-      transition: opacity 0.2s ease;
-    }
-
-    .dev-signature a:hover {
-      opacity: 0.8;
     }
 
     @media (max-width: 600px) {
@@ -220,8 +214,7 @@
 
   <header class="header">
     <div class="logo-container">
-      <img src="../logo.png" alt="Punishment Logo"
-        class="logo"
+      <img src="../logo.png" alt="Punishment Logo" class="logo"
         onerror="this.src='https://ui-avatars.com/api/?name=P&background=ff3b3b&color=fff'" />
     </div>
     <h1>Punishment</h1>
@@ -229,7 +222,7 @@
 
   <div id="statusIndicator" class="status-indicator status-unknown">
     <div class="status-dot" id="statusDot" style="background-color: var(--unknown)"></div>
-    <span id="statusText">Verificando...</span>
+    <span id="statusText">Sincronizando...</span>
   </div>
 
   <main class="grid">
@@ -270,6 +263,7 @@
     <div class="footer-links">
       <a href="../terms">Termos</a>
       <a href="../privacy">Privacidade</a>
+      <a href="../status">Status</a>
     </div>
     <p>© 2026 Punishment. All rights reserved.</p>
     <p class="dev-signature">Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a></p>
@@ -285,19 +279,17 @@
       const apiStatusEl = document.getElementById('apiStatus');
 
       try {
-        const [statusRes, guildsRes, usersRes] = await Promise.all([
-          fetch('https://punbot.xyz/api/bot/status'),
-          fetch('https://punbot.xyz/api/bot/guilds').catch(() => ({ json: () => [] })),
-          fetch('https://punbot.xyz/api/bot/users').catch(() => ({ json: () => ({ total: 0 }) }))
-        ]);
+        // 1. Busca dados do Better Stack (Status Real)
+        const bsRes = await fetch('https://status.punbot.xyz/status-page/v2/services.json');
+        const bsData = await bsRes.json();
+        
+        // Verifica se todos os serviços estão 'up'
+        const isAllUp = bsData.services.every(s => s.status === 'up');
+        
+        // Pega o status do primeiro serviço (geralmente a API)
+        const mainServiceStatus = bsData.services[0].status;
 
-        const statusData = await statusRes.json();
-        const guildsData = await guildsRes.json();
-        const usersData = await usersRes.json();
-
-        const isOnline = statusData.online === true || statusData.status === "online";
-
-        if (isOnline) {
+        if (isAllUp) {
           indicator.className = "status-indicator status-operational";
           statusText.textContent = "Sistemas Operacionais";
           dot.style.backgroundColor = "var(--online)";
@@ -311,29 +303,27 @@
           apiStatusEl.style.color = "var(--offline)";
         }
 
-        const totalGuilds = Array.isArray(guildsData) ? guildsData.length : (guildsData.count || 0);
-        document.getElementById('guilds').textContent = totalGuilds.toLocaleString('pt-BR');
+        // 2. Busca dados do Bot (Números)
+        const botRes = await fetch('https://punbot.xyz/api/bot/status');
+        const botData = await botRes.json();
 
-        const totalUsers = usersData.total || usersData.users || 0;
-        document.getElementById('users').textContent = totalUsers.toLocaleString('pt-BR');
+        document.getElementById('guilds').textContent = (botData.guilds || 0).toLocaleString('pt-BR');
+        document.getElementById('users').textContent = (botData.users || 0).toLocaleString('pt-BR');
 
+        // 3. Horário da última verificação
         const now = new Date();
-        const horas = now.getHours().toString().padStart(2, '0');
-        const minutos = now.getMinutes().toString().padStart(2, '0');
-        document.getElementById('updated').textContent = `Hoje às ${horas}:${minutos}`;
+        document.getElementById('updated').textContent = `Hoje às ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-      } catch {
-        statusText.textContent = "Erro na conexão com a API";
+      } catch (error) {
+        console.error("Erro na sincronização:", error);
+        statusText.textContent = "Erro de conexão";
         indicator.className = "status-indicator status-offline";
         dot.style.backgroundColor = "var(--offline)";
-        apiStatusEl.textContent = "Indisponível";
-        apiStatusEl.style.color = "var(--offline)";
       }
     }
 
     fetchStatus();
-    setInterval(fetchStatus, 30000);
+    setInterval(fetchStatus, 60000); // Atualiza a cada 1 minuto
   </script>
-
 </body>
 </html>
