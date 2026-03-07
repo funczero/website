@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Termos de Uso</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg-dark: #0a0a0c;
@@ -14,7 +19,7 @@
       --footer-color: #333;
       --link-color: #d4d4d8;
       --primary-red: #ef4444;
-      --border-soft: rgba(255, 255, 255, 0.05);
+      --border-soft: rgba(255,255,255,0.05);
       --funczero-purple: #9C6ADE;
     }
 
@@ -32,24 +37,25 @@
         radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
       background-size: 100% 100%, 40px 40px;
       color: var(--text-main);
+
       min-height: 100vh;
+
       display: flex;
       flex-direction: column;
       align-items: center;
+
       line-height: 1.6;
-      padding: 0;
     }
 
     .container {
       width: 100%;
       max-width: 720px;
-      z-index: 1;
+      padding: 40px 20px;
       flex: 1;
-      padding: 20px;
+      z-index: 1;
     }
 
     .card {
-      background: transparent;
       width: 100%;
     }
 
@@ -57,7 +63,6 @@
       font-size: 3rem;
       font-weight: 800;
       margin-bottom: 8px;
-      color: var(--text-main);
       letter-spacing: -1.5px;
     }
 
@@ -74,7 +79,6 @@
       font-weight: 700;
       margin-top: 48px;
       margin-bottom: 16px;
-      color: var(--text-main);
       border-left: 2px solid var(--accent-gray);
       padding-left: 16px;
     }
@@ -89,7 +93,7 @@
     ul {
       margin-left: 16px;
       margin-bottom: 24px;
-      list-style-type: none;
+      list-style: none;
     }
 
     li {
@@ -111,13 +115,13 @@
       font-weight: 600;
     }
 
-    .card a {
+    a {
       color: var(--link-color);
       text-decoration: underline;
       text-underline-offset: 3px;
     }
 
-    .card a:hover {
+    a:hover {
       color: var(--text-main);
     }
 
@@ -128,6 +132,7 @@
       font-size: 0.75rem;
       color: #555;
       border-top: 1px solid var(--border-soft);
+      margin-top: auto;
       background: var(--bg-dark);
     }
 
@@ -172,6 +177,7 @@
     }
   </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -195,16 +201,19 @@
       O uso do Punishment é permitido apenas para usuários que estejam em conformidade com os
       <strong>Termos de Serviço e Diretrizes do Discord</strong>.
     </p>
+
     <p>
       Caso o usuário não concorde com qualquer cláusula destes Termos, deverá interromper
       imediatamente o uso do bot.
     </p>
 
     <h2>2. Uso Permitido</h2>
+
     <p>
       O Punishment deve ser utilizado exclusivamente para fins legítimos de moderação,
       organização e segurança de servidores.
     </p>
+
     <ul>
       <li>É proibido o uso para atividades ilegais, abusivas ou maliciosas;</li>
       <li>É vedada qualquer tentativa de explorar falhas, contornar limitações ou interferir no funcionamento do bot;</li>
@@ -212,13 +221,14 @@
     </ul>
 
     <h2>3. Isenção e Limitação de Responsabilidade</h2>
+
     <p>
       O Punishment é fornecido <strong>“no estado em que se encontra”</strong>, sem garantias expressas ou implícitas
       de desempenho, disponibilidade contínua ou ausência de erros.
     </p>
-    <p>
-      O desenvolvedor <strong>não se responsabiliza</strong> por:
-    </p>
+
+    <p>O desenvolvedor <strong>não se responsabiliza</strong> por:</p>
+
     <ul>
       <li>Danos diretos ou indiretos causados por uso indevido;</li>
       <li>Banimentos, punições ou perdas decorrentes de decisões administrativas;</li>
@@ -227,33 +237,39 @@
     </ul>
 
     <h2>4. Indenização</h2>
+
     <p>
       O usuário concorda em isentar e indenizar o responsável pelo Punishment contra quaisquer
       reclamações, danos, perdas ou responsabilidades decorrentes do uso do bot.
     </p>
 
     <h2>5. Suspensão e Encerramento</h2>
+
     <p>
       O acesso ao Punishment pode ser suspenso ou encerrado a qualquer momento, sem aviso prévio,
       caso seja identificado uso indevido, violação destes Termos ou risco operacional.
     </p>
 
     <h2>6. Alterações dos Termos</h2>
+
     <p>
       Estes Termos podem ser modificados a qualquer momento. O uso contínuo do Punishment
       após alterações implica aceitação automática da versão vigente.
     </p>
 
     <h2>7. Foro e Legislação</h2>
+
     <p>
       Estes Termos são regidos pelas leis aplicáveis, respeitando normas de proteção de dados
       como a <strong>LGPD (Brasil)</strong> e, quando aplicável, o <strong>GDPR</strong>.
     </p>
 
     <h2>8. Contato</h2>
+
     <p>
       📧 <a href="mailto:contato@funczero.xyz">contato@funczero.xyz</a>
     </p>
+
   </div>
 </div>
 
@@ -263,8 +279,12 @@
     <a href="./privacy">Privacidade</a>
     <a href="./status">Status</a>
   </div>
+
   <p>© 2026 Punishment. All rights reserved.</p>
-  <p class="dev-signature">Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a></p>
+
+  <p class="dev-signature">
+    Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a>
+  </p>
 </footer>
 
 </body>
