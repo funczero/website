@@ -36,8 +36,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 60px 24px 0 24px;
       line-height: 1.6;
-      padding: 0;
     }
 
     .container {
@@ -45,26 +45,6 @@
       max-width: 720px;
       z-index: 1;
       flex: 1;
-      padding: 20px;
-    }
-
-    .back {
-      display: inline-block;
-      margin-bottom: 32px;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .back:hover {
-      color: var(--text-main);
-    }
-
-    .card {
-      background: transparent;
-      width: 100%;
     }
 
     h1 {
@@ -136,28 +116,47 @@
       color: var(--text-main);
     }
 
+    /* FOOTER SINCRONIZADO */
+    
     footer {
       width: 100%;
-      padding: 20px;
-      text-align: center;
-      font-size: 0.75rem;
-      color: #555;
       border-top: 1px solid var(--border-soft);
-      background: var(--bg-dark);
+      margin-top: 60px;
+      padding: 32px 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .footer-container {
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-container p {
+      margin-bottom: 0;
+      text-align: center;
+      font-size: 0.75rem; /* Ajustado */
+      color: var(--text-muted);
     }
 
     .footer-links {
-      margin-bottom: 10px;
       display: flex;
       justify-content: center;
-      gap: 18px;
+      gap: 24px;
       flex-wrap: wrap;
+      margin-bottom: 8px;
     }
 
     .footer-links a {
       color: var(--text-muted);
       text-decoration: none;
-      transition: 0.2s;
+      font-size: 0.75rem; /* Ajustado */
+      font-weight: 500;
+      transition: color 0.2s ease;
     }
 
     .footer-links a:hover {
@@ -165,16 +164,14 @@
     }
 
     .dev-signature {
-      margin-top: 8px;
+      font-size: 0.8rem; /* Ajustado */
       color: #777;
-      font-size: 0.8rem;
     }
 
     .dev-signature a {
       text-decoration: none;
       font-weight: 700;
       color: var(--funczero-purple);
-      transition: color 0.2s ease;
     }
 
     .dev-signature a:hover {
@@ -184,13 +181,13 @@
     @media (max-width: 480px) {
       h1 { font-size: 2.2rem; }
       h2 { font-size: 1.15rem; }
+      body { padding: 40px 20px 0 20px; }
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-
   <div class="card">
     <h1>Política de Privacidade</h1>
     <div class="updated">Última atualização: 12/01/2026</div>
@@ -260,13 +257,15 @@
 </div>
 
 <footer>
-  <div class="footer-links">
-    <a href="./terms">Termos</a>
-    <a href="./privacy">Privacidade</a>
-    <a href="./status">Status</a>
+  <div class="footer-container">
+    <div class="footer-links">
+      <a href="./terms">Termos</a>
+      <a href="./privacy">Privacidade</a>
+      <a href="./status">Status</a>
+    </div>
+    <p>© 2026 Punishment. Todos os direitos reservados.</p>
+    <p class="dev-signature">Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a></p>
   </div>
-  <p>© 2026 Punishment. All rights reserved.</p>
-  <p class="dev-signature">Dev by <a href="https://funczero.xyz" target="_blank">FuncZero</a></p>
 </footer>
 
 </body>
